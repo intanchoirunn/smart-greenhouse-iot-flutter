@@ -1,45 +1,46 @@
-# 🌿 Smart Greenhouse - IoT & Mobile Monitoring System
+# 🌱 Smart Plant Monitoring & Automatic Watering System
 
-Sistem pemantauan dan pengendalian mikroklimat smart greenhouse berbasis **Internet of Things (IoT)** dan **Aplikasi Mobile**[cite: 1, 2]. Proyek ini mengintegrasikan mikrokontroler ESP32, pemodelan dinamis mikroklimat tanah (*evaporative cooling*), platform cloud Blynk IoT, serta aplikasi Flutter berbasis arsitektur 3-Layer[cite: 1, 2].
+Sistem cerdas berbasis IoT dan Aplikasi Mobile untuk memantau kondisi lingkungan serta mengatur penyiraman tanaman secara otomatis.
+
+Alat ini membaca suhu udara, kelembaban udara, dan tingkat kebasahan tanah, lalu dapat mengaktifkan pompa penyiraman secara otomatis jika kondisi tanah mulai mengering.
 
 ---
 
 ## 📌 Fitur Utama
 
-- **Real-Time Environmental Monitoring:** Pemantauan parameter suhu udara (°C), kelembaban udara (%RH), dan kelembaban tanah (%) secara berkala[cite: 1, 2].
-- **Dual Control Mode:**
-  - **Mode Manual:** Kontrol on/off aktuator pompa penyiraman secara langsung via antarmuka pengguna[cite: 1, 2].
-  - **Mode Otomatis (Threshold-Based):** Pompa aktif otomatis saat kelembaban tanah <= 30% dan mati saat kelembaban >= 80%[cite: 1, 2].
-- **Evaporative Cooling Simulation:** Simulasi dinamika fisika tanah di mana kelembaban memengaruhi suhu dan kelembaban udara sekitar[cite: 1].
-- **Alert System:** Notifikasi visual status darurat saat tingkat kelembaban tanah kritis (< 15%)[cite: 1, 2].
+- **Pemantauan Lingkungan Real-Time:** Menampilkan data suhu udara, kelembaban udara, dan kelembaban tanah secara langsung di layar smartphone atau komputer.
+- **Dua Mode Kendali:**
+  - **Mode Manual:** Menyalakan dan mematikan pompa penyiraman kapan saja melalui antarmuka aplikasi/web.
+  - **Mode Otomatis:** Pompa otomatis menyala saat tanah kering (<= 30%) dan otomatis mati saat tanah sudah cukup basah (>= 80%).
+- **Simulasi Respon Lingkungan:** Pemodelan perubahan suhu dan kelembaban udara sekitar saat kondisi tanah basah setelah penyiraman.
+- **Indikator Peringatan:** Indikator visual menyala saat kondisi kelembaban tanah mencapai level kritis (< 15%).
 
 ---
 
-## 🏗️ Arsitektur Sistem
+## 🏗️ Cara Kerja Sistem
 
-- **Hardware Layer (Wokwi):** ESP32, Sensor DHT22, LED Indikator Pompa & Alert[cite: 1].
-- **Cloud Layer (Blynk 2.0):** Datastream Virtual Pin (V0–V5), Web Dashboard, dan HTTP REST API[cite: 1, 2].
-- **Application Layer (Flutter):** Implementasi 3-Layer Architecture (UI Layer -> State Layer -> Service Layer)[cite: 2].
-
----
-
-## 🔌 Pemetaan Datastream (Virtual Pin)
-
-| Pin | Parameter | Tipe Data | Rentang / Nilai | Fungsi |
-| :---: | :--- | :---: | :---: | :--- |
-| **V0** | Suhu Udara | Double | 0 - 50 °C | Telemetri suhu lingkungan[cite: 1] |
-| **V1** | Kelembaban Udara | Double | 0 - 100 % | Telemetri kelembaban udara[cite: 1] |
-| **V2** | Kelembaban Tanah | Double | 0 - 100 % | Estimasi tingkat kebasahan tanah[cite: 1] |
-| **V3** | Kontrol Pompa | Integer | 0 (OFF) / 1 (ON) | Perintah manual saklar pompa[cite: 1] |
-| **V4** | Mode Otomatis | Integer | 0 (Manual) / 1 (Auto) | Toggle sistem otomasi[cite: 1] |
-| **V5** | Status Pompa | Integer | 0 (Mati) / 1 (Aktif) | Umpan balik status aktual pompa[cite: 1] |
+1. **ESP32 & Sensor:** Mengambil data parameter lingkungan dan mengontrol aktif/tidaknya pompa penyiram.
+2. **Blynk Cloud Platform:** Mengalirkan data sensor dan menerima perintah kontrol melalui jaringan internet.
+3. **Aplikasi Mobile (Flutter):** Antarmuka pengguna untuk melihat visualisasi data sensor dan tombol kontrol pompa.
 
 ---
 
-## 🛠️ Tech Stack & Tools
+## 🔌 Daftar Saluran Data (Virtual Pin Blynk)
 
-- **Firmware:** C++ / Arduino Framework, Blynk Library, DHTesp[cite: 1]
-- **Simulator:** Wokwi Electronic Simulator[cite: 1]
-- **Cloud IoT:** Blynk 2.0 Cloud Platform[cite: 1]
-- **Mobile Development:** Flutter, Dart, http package[cite: 2]
-- **Architecture Pattern:** 3-Layer Separation of Concerns (Service, State, UI)[cite: 2]
+| Pin | Data Parameter | Fungsi |
+| :---: | :--- | :--- |
+| **V0** | Suhu Udara (°C) | Menampilkan suhu lingkungan tanaman |
+| **V1** | Kelembaban Udara (%) | Menampilkan tingkat kelembaban udara |
+| **V2** | Kelembaban Tanah (%) | Menampilkan persentase kadar air dalam tanah |
+| **V3** | Saklar Pompa | Perintah manual menyalakan/mematikan pompa |
+| **V4** | Mode Otomatis | Mengaktifkan/menonaktifkan logika penyiraman otomatis |
+| **V5** | Status Pompa | Konfirmasi status aktual pompa (menyala/mati) |
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Mikrokontroler & Firmware:** ESP32, C++ / Arduino Framework
+- **Simulasi Perangkat:** Wokwi Electronic Simulator
+- **Platform Cloud IoT:** Blynk 2.0
+- **Pengembangan Aplikasi:** Flutter & Dart
